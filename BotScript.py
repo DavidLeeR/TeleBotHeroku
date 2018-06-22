@@ -386,6 +386,7 @@ def stats(bot, update, **kwargs):
 
 thisHour = 99
 lastMessageHour = 99
+now = datetime.datetime.now()
 
 def main():
     # Create the Updater and pass it your bot's token.
