@@ -95,7 +95,8 @@ def check(bot, update, override_lock=None):
 # Welcome a user to the chat
 def welcome(bot, update):
     """ Welcomes a user to the chat """
-    global thisHour = now.hour
+    global thisHour
+    thisHour = now.hour
 
     if thisHour != lastMessageHour:
 
@@ -120,7 +121,8 @@ def welcome(bot, update):
             .replace('$title', message.chat.title)
         send_async(bot, chat_id=chat_id, text=text, parse_mode=ParseMode.HTML)
 
-        global lastMessageHour = now.hour
+        global lastMessageHour
+        lastMessagehour = now.hour
 
 # Welcome a user to the chat
 def goodbye(bot, update):
