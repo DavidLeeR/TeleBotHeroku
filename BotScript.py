@@ -95,10 +95,9 @@ def check(bot, update, override_lock=None):
 # Welcome a user to the chat
 def welcome(bot, update):
     """ Welcomes a user to the chat """
-    global thisHour
-    global lastMessageHour
-    thisHour = now.hour
 
+    thisHour = now.hour
+    lastMessageHour = db.get("lastMessageHour")
     print(thisHour)
     print(lastMessageHour)
 
@@ -124,8 +123,8 @@ def welcome(bot, update):
                             message.new_chat_member.first_name)\
             .replace('$title', message.chat.title)
         send_async(bot, chat_id=chat_id, text=text, parse_mode=ParseMode.HTML)
-
-        lastMessagehour = now.hour
+        
+        db.set("lastMessageHour", now.hour)
 
 # Welcome a user to the chat
 def goodbye(bot, update):
@@ -387,8 +386,6 @@ def stats(bot, update, **kwargs):
     else:
         logger.info("Tracking with botan.io failed")
 
-thisHour = 99
-lastMessageHour = 99
 now = datetime.datetime.now()
 
 def main():
