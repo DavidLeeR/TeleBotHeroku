@@ -1,4 +1,6 @@
 # TeleBotHeroku
+## DETAILS:
+
 -hosted on heroku
 
 -built with python and virtualenv (pip)
@@ -10,7 +12,7 @@
 -uses git
 
 
-modifications:
+## MODIFICATIONS:
 
 -greets new chat group members only once per hour
 
