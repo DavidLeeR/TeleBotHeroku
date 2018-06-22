@@ -8,14 +8,14 @@ from html import escape
 from telegram import ParseMode, TelegramError, Update
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 from telegram.ext.dispatcher import run_async
-from telegram.contrib.botan import Botan
+
 
 import python3pickledb as pickledb
 
 # Configuration
 BOTNAME = 'HerokuuTestBot'
 TOKEN = '619898585:AAFvRpxQB-F38JeFo531ZLgq6_aZtkS49N4'
-BOTAN_TOKEN = 'BOTANTOKEN'
+#BOTAN_TOKEN = 'BOTANTOKEN'
 
 help_text = 'Welcomes everyone that enters a group chat that this bot is a ' \
             'part of. By default, only the person who invited the bot into ' \
@@ -360,19 +360,19 @@ def error(bot, update, error, **kwargs):
         pass
 
 
-botan = None
-if BOTAN_TOKEN != 'BOTANTOKEN':
-    botan = Botan(BOTAN_TOKEN)
+#botan = None
+#if BOTAN_TOKEN != 'BOTANTOKEN':
+#    botan = Botan(BOTAN_TOKEN)
 
-@run_async
-def stats(bot, update, **kwargs):
-    if not botan:
-        return
+#@run_async
+#def stats(bot, update, **kwargs):
+#    if not botan:
+#        return
 
-    if botan.track(update.message):
-        logger.debug("Tracking with botan.io successful")
-    else:
-        logger.info("Tracking with botan.io failed")
+#    if botan.track(update.message):
+#        logger.debug("Tracking with botan.io successful")
+#    else:
+#        logger.info("Tracking with botan.io failed")
 
 
 def main():
