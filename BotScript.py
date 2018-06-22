@@ -4,6 +4,7 @@ from time import sleep
 import traceback
 import sys
 from html import escape
+import datetime
 
 from telegram import Emoji, ParseMode, TelegramError, Update
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
@@ -94,28 +95,32 @@ def check(bot, update, override_lock=None):
 # Welcome a user to the chat
 def welcome(bot, update):
     """ Welcomes a user to the chat """
+    thisHour = now.hour
 
-    message = update.message
-    chat_id = message.chat.id
-    logger.info('%s joined to chat %d (%s)'
-                 % (escape(message.new_chat_member.first_name),
-                    chat_id,
-                    escape(message.chat.title)))
+    if thisHour != lastMessageHour:
 
-    # Pull the custom message for this chat from the database
-    text = db.get(str(chat_id))
+        message = update.message
+        chat_id = message.chat.id
+        logger.info('%s joined to chat %d (%s)'
+                    % (escape(message.new_chat_member.first_name),
+                        chat_id,
+                        escape(message.chat.title)))
 
-    # Use default message if there's no custom one set
-    if text is None:
-        text = 'Hello $username! Welcome to $title %s' \
-                  % Emoji.GRINNING_FACE_WITH_SMILING_EYES
+        # Pull the custom message for this chat from the database
+        text = db.get(str(chat_id))
 
-    # Replace placeholders and send message
-    text = text.replace('$username',
-                        message.new_chat_member.first_name)\
-        .replace('$title', message.chat.title)
-    send_async(bot, chat_id=chat_id, text=text, parse_mode=ParseMode.HTML)
+        # Use default message if there's no custom one set
+        if text is None:
+            text = 'Hello $username! Welcome to $title %s' \
+                    % Emoji.GRINNING_FACE_WITH_SMILING_EYES
 
+        # Replace placeholders and send message
+        text = text.replace('$username',
+                            message.new_chat_member.first_name)\
+            .replace('$title', message.chat.title)
+        send_async(bot, chat_id=chat_id, text=text, parse_mode=ParseMode.HTML)
+
+        lastMessageHour = now.hour
 
 # Welcome a user to the chat
 def goodbye(bot, update):
@@ -377,6 +382,8 @@ def stats(bot, update, **kwargs):
     else:
         logger.info("Tracking with botan.io failed")
 
+thisHour = 99
+lastMessageHour = 99
 
 def main():
     # Create the Updater and pass it your bot's token.
