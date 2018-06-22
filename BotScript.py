@@ -393,7 +393,7 @@ def main():
     dp.add_handler(CommandHandler("unquiet", unquiet))
 
     dp.add_handler(MessageHandler([Filters.status_update], empty_message))
-    dp.add_handler(MessageHandler([Filters.text], stats))
+    #dp.add_handler(MessageHandler([Filters.text], stats))
 
     dp.add_error_handler(error)
 
