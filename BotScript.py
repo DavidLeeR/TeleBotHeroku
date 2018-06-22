@@ -5,17 +5,17 @@ import traceback
 import sys
 from html import escape
 
-from telegram import ParseMode, TelegramError, Update
+from telegram import Emoji, ParseMode, TelegramError, Update
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 from telegram.ext.dispatcher import run_async
-
+from telegram.contrib.botan import Botan
 
 import python3pickledb as pickledb
 
 # Configuration
 BOTNAME = 'HerokuuTestBot'
 TOKEN = '619898585:AAFvRpxQB-F38JeFo531ZLgq6_aZtkS49N4'
-#BOTAN_TOKEN = 'BOTANTOKEN'
+BOTAN_TOKEN = 'BOTANTOKEN'
 
 help_text = 'Welcomes everyone that enters a group chat that this bot is a ' \
             'part of. By default, only the person who invited the bot into ' \
@@ -107,7 +107,8 @@ def welcome(bot, update):
 
     # Use default message if there's no custom one set
     if text is None:
-        text = 'Hello $username! Welcome to $title %s' 
+        text = 'Hello $username! Welcome to $title %s' \
+                  % Emoji.GRINNING_FACE_WITH_SMILING_EYES
 
     # Replace placeholders and send message
     text = text.replace('$username',
@@ -162,7 +163,9 @@ def introduce(bot, update):
     db.set(str(chat_id) + '_lck', True)
 
     text = 'Hello %s! I will now greet anyone who joins this chat with a' \
-           ' nice message %s \nCheck the /help command for more info!'
+           ' nice message %s \nCheck the /help command for more info!'\
+           % (update.message.chat.title,
+              Emoji.GRINNING_FACE_WITH_SMILING_EYES)
     send_async(bot, chat_id=chat_id, text=text)
 
 
@@ -360,19 +363,19 @@ def error(bot, update, error, **kwargs):
         pass
 
 
-#botan = None
-#if BOTAN_TOKEN != 'BOTANTOKEN':
-#    botan = Botan(BOTAN_TOKEN)
+botan = None
+if BOTAN_TOKEN != 'BOTANTOKEN':
+    botan = Botan(BOTAN_TOKEN)
 
-#@run_async
-#def stats(bot, update, **kwargs):
-#    if not botan:
-#        return
+@run_async
+def stats(bot, update, **kwargs):
+    if not botan:
+        return
 
-#    if botan.track(update.message):
-#        logger.debug("Tracking with botan.io successful")
-#    else:
-#        logger.info("Tracking with botan.io failed")
+    if botan.track(update.message):
+        logger.debug("Tracking with botan.io successful")
+    else:
+        logger.info("Tracking with botan.io failed")
 
 
 def main():
@@ -393,7 +396,7 @@ def main():
     dp.add_handler(CommandHandler("unquiet", unquiet))
 
     dp.add_handler(MessageHandler([Filters.status_update], empty_message))
-    #dp.add_handler(MessageHandler([Filters.text], stats))
+    dp.add_handler(MessageHandler([Filters.text], stats))
 
     dp.add_error_handler(error)
 
@@ -402,4 +405,4 @@ def main():
     updater.idle()
 
 if __name__ == '__main__':
-    main()
+    main()  
