@@ -5,7 +5,7 @@ import traceback
 import sys
 from html import escape
 
-from telegram import Emoji, ParseMode, TelegramError, Update
+from telegram import ParseMode, TelegramError, Update
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 from telegram.ext.dispatcher import run_async
 from telegram.contrib.botan import Botan
@@ -107,8 +107,7 @@ def welcome(bot, update):
 
     # Use default message if there's no custom one set
     if text is None:
-        text = 'Hello $username! Welcome to $title %s' \
-                  % Emoji.GRINNING_FACE_WITH_SMILING_EYES
+        text = 'Hello $username! Welcome to $title %s' 
 
     # Replace placeholders and send message
     text = text.replace('$username',
@@ -163,9 +162,7 @@ def introduce(bot, update):
     db.set(str(chat_id) + '_lck', True)
 
     text = 'Hello %s! I will now greet anyone who joins this chat with a' \
-           ' nice message %s \nCheck the /help command for more info!'\
-           % (update.message.chat.title,
-              Emoji.GRINNING_FACE_WITH_SMILING_EYES)
+           ' nice message %s \nCheck the /help command for more info!'
     send_async(bot, chat_id=chat_id, text=text)
 
 
