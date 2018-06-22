@@ -127,32 +127,32 @@ def welcome(bot, update):
         db.set("lastMessageHour", now.hour)
 
 # Welcome a user to the chat
-def goodbye(bot, update):
-    """ Sends goodbye message when a user left the chat """
+#def goodbye(bot, update):
+#    """ Sends goodbye message when a user left the chat """
 
-    message = update.message
-    chat_id = message.chat.id
-    logger.info('%s left chat %d (%s)'
-                 % (escape(message.left_chat_member.first_name),
-                    chat_id,
-                    escape(message.chat.title)))
+
+#    message = update.message
+#    chat_id = message.chat.id
+#    logger.info('%s left chat %d (%s)'
+#                 % (escape(message.left_chat_member.first_name),
+#                    escape(message.chat.title)))
 
     # Pull the custom message for this chat from the database
-    text = db.get(str(chat_id) + '_bye')
+#    text = db.get(str(chat_id) + '_bye')
 
     # Goodbye was disabled
-    if text is False:
-        return
+#    if text is False:
+#        return
 
     # Use default message if there's no custom one set
-    if text is None:
-        text = 'Goodbye, $username!'
+#    if text is None:
+#        text = 'Goodbye, $username!'
 
     # Replace placeholders and send message
-    text = text.replace('$username',
-                        message.left_chat_member.first_name)\
-        .replace('$title', message.chat.title)
-    send_async(bot, chat_id=chat_id, text=text, parse_mode=ParseMode.HTML)
+#    text = text.replace('$username',
+#                        message.left_chat_member.first_name)\
+#        .replace('$title', message.chat.title)
+#    send_async(bot, chat_id=chat_id, text=text, parse_mode=ParseMode.HTML)
 
 
 # Introduce the bot to a chat its been added to
