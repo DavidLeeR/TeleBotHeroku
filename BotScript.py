@@ -99,8 +99,8 @@ def welcome(bot, update):
     global lastMessageHour
     thisHour = now.hour
 
-    print thisHour
-    print lastMessageHour
+    print(thisHour)
+    print(lastMessageHour)
 
     if thisHour != lastMessageHour:
 
